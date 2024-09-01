@@ -1,15 +1,15 @@
 import pytest
-import challenge_fetcher
-import challenge_fetcher.challenge
-import challenge_fetcher.parser
-import challenge_fetcher.scraper
+import html_to_markdown
+import html_to_markdown.challenge
+import html_to_markdown.parser
+import html_to_markdown.scraper
 
 
 class TestKnownChallenges:
-    """A class for testing challenge_fetcher against known / desired outputs."""
+    """A class for testing html_to_markdown against known / desired outputs."""
 
     @pytest.fixture
-    def known_challenges(self) -> dict[int, challenge_fetcher.challenge.Challenge]:
+    def known_challenges(self) -> dict[int, html_to_markdown.challenge.Challenge]:
         """known_challenges Return a dictionary of known Challenge objects, keyed by challenge number.
 
         The returned challenges are hand-written, and demonstrate the "desired" output of the challenge objects.
@@ -27,12 +27,12 @@ class TestKnownChallenges:
           page have been replaced with MarkDown-style links. Also tests replacement of <i> tags with MarkDown syntax.
 
         Returns:
-            dict[int, challenge_fetcher.challenge.Challenge]: A dictionary of desired Challenge object outputs.
+            dict[int, html_to_markdown.challenge.Challenge]: A dictionary of desired Challenge object outputs.
         """
 
         return {
             # Sanity check...
-            1: challenge_fetcher.challenge.Challenge(
+            1: html_to_markdown.challenge.Challenge(
                 1,
                 "https://projecteuler.net/problem=1",
                 "Multiples of 3 or 5",
@@ -40,7 +40,7 @@ class TestKnownChallenges:
                 None,
             ),
             # Test replacement of tooltips.
-            5: challenge_fetcher.challenge.Challenge(
+            5: html_to_markdown.challenge.Challenge(
                 5,
                 "https://projecteuler.net/problem=5",
                 "Smallest Multiple",
@@ -48,7 +48,7 @@ class TestKnownChallenges:
                 None,
             ),
             # Test LaTeX code block not in a paragraph.
-            6: challenge_fetcher.challenge.Challenge(
+            6: html_to_markdown.challenge.Challenge(
                 6,
                 "https://projecteuler.net/problem=6",
                 "Sum Square Difference",
@@ -56,7 +56,7 @@ class TestKnownChallenges:
                 None,
             ),
             # Test inline LaTeX followed immediately by text.
-            7: challenge_fetcher.challenge.Challenge(
+            7: html_to_markdown.challenge.Challenge(
                 7,
                 "https://projecteuler.net/problem=7",
                 "10001st Prime",
@@ -64,7 +64,7 @@ class TestKnownChallenges:
                 None,
             ),
             # Test replacement of <br> tags.
-            9: challenge_fetcher.challenge.Challenge(
+            9: html_to_markdown.challenge.Challenge(
                 9,
                 "https://projecteuler.net/problem=9",
                 "Special Pythagorean Triplet",
@@ -72,7 +72,7 @@ class TestKnownChallenges:
                 None,
             ),
             # Test <b> tags and colours replacement.
-            11: challenge_fetcher.challenge.Challenge(
+            11: html_to_markdown.challenge.Challenge(
                 11,
                 "https://projecteuler.net/problem=11",
                 "Largest Product in a Grid",
@@ -80,7 +80,7 @@ class TestKnownChallenges:
                 None,
             ),
             # Test multi-line LaTeX expressions using \begin{...} and \end{...}.
-            12: challenge_fetcher.challenge.Challenge(
+            12: html_to_markdown.challenge.Challenge(
                 12,
                 "https://projecteuler.net/problem=12",
                 "Highly Divisible Triangular Number",
@@ -88,7 +88,7 @@ class TestKnownChallenges:
                 None,
             ),
             # Test <b> tag detection and replacement.
-            14: challenge_fetcher.challenge.Challenge(
+            14: html_to_markdown.challenge.Challenge(
                 14,
                 "https://projecteuler.net/problem=14",
                 "Longest Collatz Sequence",
@@ -96,7 +96,7 @@ class TestKnownChallenges:
                 None,
             ),
             # Test LaTeX containing curly braces {}.
-            39: challenge_fetcher.challenge.Challenge(
+            39: html_to_markdown.challenge.Challenge(
                 39,
                 "https://projecteuler.net/problem=39",
                 "Integer Right Triangles",
@@ -104,7 +104,7 @@ class TestKnownChallenges:
                 None,
             ),
             # Test <img>, <a href>, and <i> tag detection and replacement.
-            96: challenge_fetcher.challenge.Challenge(
+            96: html_to_markdown.challenge.Challenge(
                 96,
                 "https://projecteuler.net/problem=96",
                 "Su Doku",
@@ -118,20 +118,20 @@ class TestKnownChallenges:
         }
 
     def test_known_challenges(
-        self, known_challenges: dict[int, challenge_fetcher.challenge.Challenge]
+        self, known_challenges: dict[int, html_to_markdown.challenge.Challenge]
     ):
-        """test_known_challenges Test the challenge_fetcher Challenge output against a list of known Challenge objects.
+        """test_known_challenges Test the html_to_markdown Challenge output against a list of known Challenge objects.
 
         For details of which challenges are used and why, see the known_challenges fixture.
 
         Args:
-            known_challenges (dict[int, challenge_fetcher.challenge.Challenge]): The array of known challenge outputs from the known_challenges fixture.
+            known_challenges (dict[int, html_to_markdown.challenge.Challenge]): The array of known challenge outputs from the known_challenges fixture.
         """
 
-        # Loop through each known challenge to run the challenge_fetcher against it.
+        # Loop through each known challenge to run the html_to_markdown against it.
         for key, test_data in known_challenges.items():
             # Get the page content from the scraper.
-            response = challenge_fetcher.scraper.get_content(key)
+            response = html_to_markdown.scraper.get_content(key)
 
             # Ensure a response was returned by the get_content() function.
             assert response is not None
@@ -140,7 +140,7 @@ class TestKnownChallenges:
             assert response.ok is True
 
             # Parse the contents into a challenge object. Assume the GitHub workarounds are being used.
-            challenge = challenge_fetcher.parser.parse_contents(key, response, True)
+            challenge = html_to_markdown.parser.parse_contents(key, response, True)
 
             # Ensure the challenge was generated successfully.
             assert challenge is not None

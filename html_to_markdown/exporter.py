@@ -1,5 +1,5 @@
 import pathlib
-import challenge_fetcher.challenge
+import html_to_markdown.challenge
 import enum
 import re
 import requests
@@ -30,7 +30,7 @@ StatusMessages = {
 
 
 def export_challenge_readme(
-    challenge: challenge_fetcher.challenge.Challenge,
+    challenge: html_to_markdown.challenge.Challenge,
     output_path: pathlib.Path,
     folder_num_digits: int,
 ) -> ExportStatus:
@@ -40,7 +40,7 @@ def export_challenge_readme(
     required resources to the folder.
 
     Args:
-        challenge (challenge_fetcher.challenge.Challenge): The Challenge object to export.
+        challenge (html_to_markdown.challenge.Challenge): The Challenge object to export.
         output_path (pathlib.Path): The output path for the export. This should be the same for all challenges.
         folder_num_digits (int): The number of digits to pad the challenge number in the folder name to.
 
@@ -90,13 +90,13 @@ def export_challenge_readme(
 
 
 def generate_challenge_readme(
-    challenge: challenge_fetcher.challenge.Challenge,
+    challenge: html_to_markdown.challenge.Challenge,
     folder_num_digits: int,
 ) -> str:
     """generate_challenge_readme Generate a MarkDown README for the provided Challenge object.
 
     Args:
-        challenge (challenge_fetcher.challenge.Challenge): The Challenge to generate the README for.
+        challenge (html_to_markdown.challenge.Challenge): The Challenge to generate the README for.
         folder_num_digits (int): The number of digits to display the challenge number to.
 
     Returns:
@@ -230,7 +230,7 @@ def generate_folder_name(
 
 
 def generate_folder_path(
-    challenge: challenge_fetcher.challenge.Challenge,
+    challenge: html_to_markdown.challenge.Challenge,
     total_number_digits: int,
     output_path: pathlib.Path,
 ) -> pathlib.Path:
@@ -240,7 +240,7 @@ def generate_folder_path(
     (padded to the number of digits specified by total_number_digits) and the challenge title.
 
     Args:
-        challenge (challenge_fetcher.challenge.Challenge): The Challenge to generate a folder for.
+        challenge (html_to_markdown.challenge.Challenge): The Challenge to generate a folder for.
         total_number_digits (int): The number of digits to pad the challenge number in the folder name to.
         output_path (pathlib.Path): The path that the folder will be created in.
 

@@ -1,6 +1,6 @@
 import pytest
-import challenge_fetcher
-import challenge_fetcher.parser
+import html_to_markdown
+import html_to_markdown.parser
 
 
 class TestFileNameSanitiser:
@@ -38,7 +38,7 @@ class TestFileNameSanitiser:
         }
 
     def test_known_file_names(self, known_file_names: dict[str, str]) -> None:
-        """test_known_file_names Test the sanitise_file_name() method of the challenge_fetcher.parser.
+        """test_known_file_names Test the sanitise_file_name() method of the html_to_markdown.parser.
 
         Args:
             known_file_names (dict[str, str]): A dictionary of file names. The key is the raw filename and the value is
@@ -49,5 +49,5 @@ class TestFileNameSanitiser:
         for raw_name, sanitised_name in known_file_names.items():
             # Compare the output of sanitise_file_name() with the desired output.
             assert (
-                challenge_fetcher.parser.sanitise_file_name(raw_name) == sanitised_name
+                html_to_markdown.parser.sanitise_file_name(raw_name) == sanitised_name
             )
